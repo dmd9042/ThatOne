@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Sign Up</title>
+    <link href="https://netdna.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js">
+    </script>
+    <script src="https://netdna.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js">
+    </script>
+</head>
+
+<body>
+<nav class="navbar navbar-default" style="background-color: #5691ef;" role="navigation">
+    <div class="navbar-header">
+    </div>
+    <div class="collapse navbar-collapse navbar-ex1-collapse">
+        <p>
+            <a href="/home/">
+                <img style="margin-top: 3px"
+                     src="https://s3.amazonaws.com/media.jetstrap.com/r0hHROGTRa0FkCNolM0Q_HealthNET.png"
+                     class="pull-left" width="50">
+            </a>
+        </p>
+        <ul class="nav navbar-nav">
+
+        </ul>
+
+    </div>
+</nav>
+<div class="form-group">
+</div>
+<br><br>
+<div class="container" style="text-align: center; padding-bottom: 75px;">
+
+    {% if message %}
+    <div class="alert alert-danger"
+         style="max-width: 800px; margin-left: auto; margin-right: auto;">{{ message }}</div>
+    {% endif %}
+    <h1>Sign Up for Health Net</h1>
+    <br>
+    <form action="/home/signUp/" method="post">
+        {% csrf_token %}
+        <div class="form-group center-block" style="max-width: 600px;">
+            <input type="text" class="form-control" name="usr" placeholder="User Name">
+        </div>
+        <div class="form-group center-block" style="max-width: 600px;">
+            <input type="password" class="form-control" name="password" placeholder="Password">
+        </div>
+        <div class="form-group center-block" style="max-width: 600px;">
+            <input type="text" class="form-control" name="fName" placeholder="First Name">
+        </div>
+        <div class="form-group center-block" style="max-width: 600px;">
+            <input type="text" class="form-control" name="lName" placeholder="Last name">
+        </div>
+        <div class="form-group center-block" style="max-width: 600px;">
+            <input type="date" class="form-control" required name="birthDay">
+        </div>
+        <div class="form-group center-block" style="max-width: 600px;">
+            <input type="text" class="form-control" name="street" placeholder="Street Address">
+        </div>
+        <div class="form-group center-block" style="max-width: 600px;">
+        </div>
+        <div class="form-group center-block" style="max-width: 600px;">
+            <input type="text" class="form-control" name="town" placeholder="Town">
+        </div>
+        <div class="form-group center-block" style="max-width: 600px;">
+            <input type="text" class="form-control" name="state" placeholder="State">
+        </div>
+        <div class="form-group center-block" style="max-width: 600px;">
+            <input type="text" class="form-control" name="zip" placeholder="Zip Code">
+        </div>
+        <div class="form-group center-block" style="max-width: 600px;">
+
+            <input type="email" class="form-control" name="email" placeholder="Email">
+        </div>
+        <div class="form-group center-block" style="max-width: 600px;">
+            <input type="number" class="form-control" name="phone" placeholder="Phone">
+        </div>
+        <label for="hospital">Select Hospital:</label>
+        <select required style="max-width: 600px" class="form-control center-block" name="hospital">
+            {% for hosp in hospitals %}
+                <option id={{ hosp.name }}>{{ hosp.name }}</option>
+            {% endfor %}
+        </select>
+        <br>
+        <div class="form-group center-block" style="max-width: 600px;">
+            <input style="margin-right: 50px" class="btn btn-success" type="submit" value="Submit">
+            <a style="margin-left: 50px" class="btn btn-danger" href="/home/">Cancel</a>
+        </div>
+    </form>
+</div>
+<nav class="navbar navbar-default navbar-fixed-bottom swag-line swag-line-bottom" style="background-color: #5691ef;"
+     role="navigation">
+    <div class="navbar-brand" style="color: black" href="/">Health Net 2017</div>
+    <div class="navbar-right navbar-form">
+        <a style="margin-right: 15px" class="btn btn-default" href="/home/help/">Help</a>
+    </div>
+</nav>
+</body>
+</html>

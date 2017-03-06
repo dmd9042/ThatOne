@@ -1,0 +1,226 @@
+<script>
+    function toggleEdit(edit) {
+        if(edit) {
+            $("#edit div input").prop("disabled", false);
+            $("#editbtn").css("display", "none");
+            $("#cancelbtn").css("display", "inline-block");
+            $("#savebtn").css("display", "inline-block");
+        } else {
+            $("#edit div input").prop("disabled", true);
+            $("#editbtn").css("display", "inline-block");
+            $("#cancelbtn").css("display", "none");
+            $("#savebtn").css("display", "none");
+        }
+    }
+</script>
+
+<form id="edit" action="/dash/{{ user.id }}/" method="post">
+    {% csrf_token %}
+    <label style="font-size: small" for="fName">First Name:</label>
+    <div class="form-group">
+        <input disabled type="text" value="{{ user.fName }}" style="max-width: 225px; margin-left: 0px;" required
+               class="form-control" name="fName" placeholder={{ user.fName }}>
+    </div>
+    <label style="font-size: small" for="lName">Last Name:</label>
+    <div class="form-group">
+        <input disabled type="text" value="{{ user.lName }}" style="max-width: 225px; margin-left: 0px;" required
+               class="form-control" name="lName" placeholder={{ user.lName }}>
+    </div>
+    <label style="font-size: small" for="birthDay">Birth Day:</label>
+    <div class="form-group">
+        <input disabled type="date" style="max-width: 225px; margin-left: 0px;" class="form-control" required name="birthDay"
+               value={{ user.birthday|date:"Y-m-d" }}>
+    </div>
+    <label style="font-size: small" for="email">Email:</label>
+    <div class="form-group">
+        <input disabled type="email" value="{{ user.email }}" style="max-width: 225px; margin-left: 0px;" required
+               class="form-control" name="email" placeholder= {{ user.email }}>
+    </div>
+    <label style="font-size: small" for="phone">Phone:</label>
+    <div class="form-group">
+        <input disabled type="number" value="{{ user.phone }}" style="max-width: 225px; margin-left: 0px;" class="form-control"
+               name="phone" placeholder= {{ user.phone }}>
+    </div>
+    {% if hospitals %}
+        <label style="font-size: small" for="hospital">Hospital:</label>
+        <select style="max-width: 225px; margin-left: 0px;" multiple class="form-control" name="hospital" required>
+            {% for hosp in hospitals %}
+                <option id={{ hosp.name }} {% if user.patientuser.hospital == hosp %}selected{% endif %}>{{ hosp.name }}</option>
+            {% endfor %}
+        </select>
+    {% endif %}
+    <br>
+    <input id="savebtn" style="display: none" class="btn btn-success" type="submit" value="Save">
+    <input id="cancelbtn" style="margin-left: 20px; display: none" class="btn btn-default" type="button" onclick="toggleEdit(false);" value="Cancel">
+    <input id="editbtn" class="btn btn-default" type="button" onclick="toggleEdit(true);" value="Edit">
+</form>
+
+
+<!--<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <title>DashBoard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link href="https://netdna.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css"
+    rel="stylesheet">
+      <link href="https://netdna.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.js"
+    rel="stylesheet">
+    <link href="https://netdna.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-glyphicons.css"
+    rel="stylesheet">
+      <style type="text/css">
+          body{
+              font-size: 20px;
+          }
+      </style>
+
+
+  </head>
+
+  <body>
+    <nav class="navbar navbar-default" style="background-color: #5691ef;" role="navigation">
+      <div class="navbar-header">
+      </div>
+      <div class="collapse navbar-collapse navbar-ex1-collapse">
+        <a href="/dash/{{ user.id }}/">
+        <img style="margin-top: 3px" src="https://s3.amazonaws.com/media.jetstrap.com/r0hHROGTRa0FkCNolM0Q_HealthNET.png"
+        class="pull-left" width="50">
+        </a>
+
+
+          <form class="form-inline" action="/home/logout/" method="post">
+              {% csrf_token %}
+              <input style="margin-top: 6px;" class="btn btn-danger pull-right" type="submit" value="Log out">
+
+          </form>
+
+      </div>
+    </nav>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"
+    >
+    </script>
+    <script src="https://netdna.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"
+    >
+    </script>
+ <br>
+    <div class="row">
+        <div class="col-x-y">
+            <div style="margin-left: 150px; width: 300px; height: 700px;" class = "well pull-left">
+
+                <h2>Your Dashboard</h2>
+                <div class="container">
+    <form action="/dash/{{ user.id }}/editInfo/" method="post">
+        {% csrf_token %}
+<label style="font-size: small" for="fName">First Name:</label>
+    <div class="form-group">
+      <input type="text" value="{{ user.fName }}" style="max-width: 225px; margin-left: 0px;" required class="form-control" name="fName" placeholder={{ user.fName }} >
+    </div>
+        <label style="font-size: small" for="lName">Last Name:</label>
+    <div class="form-group">
+      <input type="text" value="{{ user.lName }}" style="max-width: 225px; margin-left: 0px;" required class="form-control" name="lName" placeholder={{ user.lName }}>
+    </div>
+        <label style="font-size: small" for="birthDay">Birth Day:</label>
+    <div class="form-group">
+      <input type="date" style="max-width: 225px; margin-left: 0px;" class="form-control" required name="birthDay" value ={{ birth }}>
+    </div>
+        <label style="font-size: small" for="email">Email:</label>
+    <div class="form-group">
+
+      <input type="email" value="{{ user.email }}" style="max-width: 225px; margin-left: 0px;" required class="form-control" name="email" placeholder= {{ user.email }}>
+    </div>
+        <label style="font-size: small" for="phone">Phone:</label>
+    <div class="form-group">
+
+      <input type="number" value="{{ user.phone }}" style="max-width: 225px; margin-left: 0px;" class="form-control" name = "phone" placeholder= {{ user.phone }}>
+    </div>
+        <label style="font-size: small" for="hospital">Hospital:</label>
+      <select style="max-width: 225px; margin-left: 0px;" multiple class="form-control" name="hospital" required>
+          {% for hosp in hospitals %}
+            <option id={{ hosp.name }} {% if user.patientuser.hospital == hosp %}selected{% endif %}>{{ hosp.name }}</option>
+          {% endfor %}
+      </select>
+<br>
+    <input  style="margin-left: 20px" class="btn  btn-success " type="submit" value="Submit">
+<a style="margin-left: 50px" class="btn  btn-danger" href="/dash/{{ user.id }}/">Cancel</a>
+    </form>
+    </div>
+            </div>
+        </div>
+    <div class="col-sm-6">
+    <div class="container" style="margin-left: 100px">
+
+    <ul style="margin-right: 4px;" class="nav nav-tabs nav-justified">
+        <li class="active">
+            <a href="/dash/{{ user.id }}/basic/">Basic</a>
+        </li>
+        <li  style="margin-left: 60px;">
+            <a href="/dash/{{ user.id }}/hospital/">Admissions/Discharge</a>
+        </li>
+        <li  style="margin-left: 60px;">
+            <a href="/dash/{{ user.id }}/tests/">Tests</a>
+        </li>
+        <li  style="margin-left: 60px;">
+            <a href="/dash/{{ user.id }}/prescriptions/">Prescriptions</a>
+        </li>
+        <li  style="margin-left: 60px;">
+            <a href="/dash/{{ user.id }}/calendar/">Calendar</a>
+        </li>
+        <li  style="margin-left: 60px;">
+            <a href="/dash/{{ user.id }}/messages/">Messages</a>
+        </li>
+    </ul>
+
+    <div class="container">
+        <br>
+
+
+
+    <table style="margin-left: 9px" class="table table-striped">
+        <tbody class="thread-inverse">
+        <tr>
+            <td>Weight:</td>
+            <td>{{ basic.height }}</td>
+
+        </tr>
+
+        <tr>
+            <td>Height: </td>
+            <td>{{ basic.weight }}</td>
+        </tr>
+
+        <tr>
+            <td>Ethnicity: </td>
+            <td>{{ basic.ethn }}</td>
+        </tr>
+
+        <tr>
+            <td>Eye Color: </td>
+            <td>{{ basic.eye }}</td>
+        </tr>
+
+        <tr>
+            <td>Allergies: </td>
+            <td>{{ basic.allergy }}</td>
+        </tr>
+
+        </tbody>
+    </table>
+    </div>
+
+        </div>
+    </div>
+
+    </div>
+
+    <nav class = "navbar navbar-default navbar-fixed-bottom swag-line swag-line-bottom" role="navigation" style="background-color: #5691ef;">
+        <div class = "navbar-brand" style="color: black" href="/">Health Net 2017</div>
+        <div class = "navbar-right navbar-form">
+            <a href = "/dash/{{ user.id }}/help/" class = "btn btn-default" style="margin-right: 15px" data-toggle="collapse">Help</a>
+        </div>
+    </nav>
+  </body>
+
+</html>-->

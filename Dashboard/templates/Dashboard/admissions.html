@@ -1,0 +1,29 @@
+{% extends 'Dashboard/dashboard.html' %}
+
+{% block content %}
+
+    <div class="container">
+    <table style="margin-left: 9px" class="table table-striped">
+        <thead class="thread-inverse">
+        <tr>
+            <td>Hospital</td>
+            <td>Admission/Discharge</td>
+            <td>Note</td>
+            <td>Date</td>
+        </tr>
+        </thead>
+
+        <tbody>
+        {% for admiss in admission %}
+            <tr>
+                <td>{{ admission.hospital.name }}</td>
+                <td>{{ admission.status }}</td>
+                <td>{{ admission.note }}</td>
+                <td>{{ admission.date }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    </div>
+
+{% endblock %}

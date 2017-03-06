@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <title>DashBoard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link href="https://netdna.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css"
+    rel="stylesheet">
+      <link href="https://netdna.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.js"
+    rel="stylesheet">
+    <link href="https://netdna.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-glyphicons.css"
+    rel="stylesheet">
+      <link rel="stylesheet" src="/Calenda/templates/Calenda/calendar.html">
+      <link rel="import" src="/Calenda/templates/Calenda/calendar.html">
+      <style type="text/css">
+          body{
+              font-size: 20px;
+          }
+      </style>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+      <script>
+          function typeSelected() {
+              selection = $('select[name=type]').val();
+              if(selection == "Nurse") {
+                  $('#select-doctor').css('display', 'block');
+                  $('#select-hospital').css('display', 'none');
+              } else {
+                  $('#select-doctor').css('display', 'none');
+                  $('#select-hospital').css('display', 'block');
+              }
+          }
+      </script>
+
+
+  </head>
+
+  <body>
+    <nav class="navbar navbar-default" style="background-color: #5691ef;" role="navigation">
+      <div class="navbar-header">
+      </div>
+      <div class="collapse navbar-collapse navbar-ex1-collapse">
+        <a href="/dash/{{ user.id }}/admin/">
+        <img style="margin-top: 3px" src="https://s3.amazonaws.com/media.jetstrap.com/r0hHROGTRa0FkCNolM0Q_HealthNET.png"
+        class="pull-left" width="50">
+        </a>
+
+
+          <form class="form-inline" action="/home/logout/" method="post">
+              {% csrf_token %}
+              <input style="margin-top: 6px;" class="btn btn-danger pull-right" type="submit" value="Log out">
+
+          </form>
+
+      </div>
+    </nav>
+
+    <br>
+
+    <div class="row">
+        <div style="margin-left: 150px; width: 300px; height: 700px;" class = "well pull-left">
+
+                <h2 style="margin-left: 10px;">Admin Dashboard</h2>
+                <div class="container">
+
+                    <form action="/dash/{{ user.id }}/admin/createUser/" method="post">
+                        {% csrf_token %}
+                        <label style="font-size: small" for="fName">New User:</label>
+                        <div class="form-group">
+                            <input type="text" style="max-width: 225px; margin-left: 0px;" class="form-control" name="username"  placeholder ="User Name" >
+                        </div>
+
+                        <div class="form-group">
+                            <input type="text" style="max-width: 225px; margin-left: 0px;" class="form-control" name="password" placeholder ="Password">
+                        </div>
+
+                            <select style="max-width: 225px; margin-left: 0px;" class="form-control" name="type" onchange="typeSelected();">
+                                <option id="mine" selected>Admin</option>
+                                <option id="mine2" >Doctor</option>
+                                <option id="mine3" >Nurse</option>
+                            </select>
+                    <br>
+                            <select id="select-doctor" style="max-width: 225px; margin-left: 0px; display: none;" class="form-control" name="doctor">
+                                {% for doc in doctors %}
+                                    <option id={{ doc.user.username }}>{{ doc.user.username }}</option>
+                                {% endfor %}
+                            </select>
+                            <select id="select-hospital" style="max-width: 225px; margin-left: 0px;" class="form-control" name="yeah" required>
+                                {% for hosp in hospitals %}
+                                    <option id={{ hosp.name }}>{{ hosp.name }}</option>
+                                {% endfor %}
+                            </select>
+                        <br>
+                        <input  style="margin-left: 0px" class="btn  btn-success " type="submit" value="Create">
+                    </form>
+                    <br>
+                    <form action="/dash/{{ user.id }}/admin/createHospital/" method="post">
+                        {% csrf_token %}
+                        <label style="font-size: small" for="fName">New Hospital:</label>
+                        <div class="form-group">
+                            <input type="text" style="max-width: 225px; margin-left: 0px;" class="form-control" name="name"  placeholder ="Hospital Name" >
+                        </div>
+                        <input  style="margin-left: 0px" class="btn  btn-success " type="submit" value="Create">
+                    </form>
+                </div>
+        </div>
+    <div class="container" style="margin-left: 500px;">
+        <div class="list-group">
+            <a class="list-group-item active">Log for Hospital: {{ admin.hospital.name }}</a>
+
+                {% for x in logs %}
+                    <a class="list-group-item">{{ x.usr }} {{ x.message }}</a>
+                {% endfor %}
+
+        </div>
+    </div>
+    </div>
+
+
+
+    <nav class = "navbar navbar-default navbar-fixed-bottom swag-line swag-line-bottom" role="navigation" style="background-color: #5691ef;">
+        <div class = "navbar-brand" style="color: black" href="/">Health Net 2017</div>
+        <div class = "navbar-right navbar-form">
+            <a href = "/dash/{{ user.id }}/help/" class = "btn btn-default" style="margin-right: 15px" data-toggle="collapse">Help</a>
+        </div>
+    </nav>
+  </body>
+
+</html>

@@ -1,0 +1,20 @@
+<form action="/dash/{{ user.id }}/transfer/" method="post">
+    {% csrf_token %}
+
+    <label style="font-size: small" for="patient">Patient:</label>
+    <select style="max-width: 225px; margin-left: 0px;" class="form-control" name="patient" required>
+        {% for pat in patients %}
+            <option id={{ pat.user.username }} value={{ pat.user.username }}>{{ pat.user.username }}</option>
+        {% endfor %}
+    </select>
+
+    <label style="font-size: small" for="hospital">Hospital:</label>
+    <select style="max-width: 225px; margin-left: 0px;" class="form-control" name="hospital" required>
+        {% for hosp in hospitals %}
+            <option id={{ hosp.name }}>{{ hosp.name }}</option>
+        {% endfor %}
+    </select>
+
+    <br>
+    <input id="transfer" style="margin-left: 0px" class="btn btn-success" type="submit" value="Transfer">
+</form>

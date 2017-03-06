@@ -1,0 +1,39 @@
+{% extends 'Dashboard/dashboard.html' %}
+
+{% block content %}
+
+    <div class="container">
+    <table style="margin-left: 9px" class="table table-striped">
+        <tbody class="thread-inverse">
+        <tr>
+            <td>Weight:</td>
+            <td>{{ basic.height }}</td>
+
+        </tr>
+
+        <tr>
+            <td>Height: </td>
+            <td>{{ basic.weight }}</td>
+        </tr>
+
+        <tr>
+            <td>Ethnicity: </td>
+            <td>{{ basic.ethn }}</td>
+        </tr>
+
+        <tr>
+            <td>Eye Color: </td>
+            <td>{{ basic.eye }}</td>
+        </tr>
+
+        <tr>
+            <td>Allergies: </td>
+            <td>{{ basic.allergy }}</td>
+        </tr>
+
+        </tbody>
+    </table>
+    </div>
+
+
+{% endblock %}

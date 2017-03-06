@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Calendar</title>
+    <link href="https://netdna.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css"
+    rel="stylesheet">
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+
+    {% load static from staticfiles %}
+
+    <link rel='stylesheet' href="{% static 'fullcalendar/fullcalendar.min.css' %}" />
+    <script type="text/javascript" src="{% static 'lib/moment.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'fullcalendar/fullcalendar.min.js' %}"></script>
+    <script type="text/javascript">
+      $(document).ready(function() {
+          // page is now ready, initialize the calendar...
+
+
+          $('#calendar').fullCalendar({
+              defaultView: 'agendaWeek',
+              allDayDefault: false,
+              events: [
+                {% for i in appointments %}
+                  {
+                      title: '{{ i.title}}',
+                      start: '{{ i.start|date:"c" }}',
+                      end: '{{ i.end|date:"c" }}',
+
+                  },
+                {% endfor %}
+              ]
+          });
+      });
+    </script>
+
+  </head>
+
+  <body>
+
+    <div class="container" style="margin-left: 375px;">
+    <div id="calendar" style="width: 80%"></div>
+    </div>
+
+  </body>
+
+</html>

@@ -1,0 +1,63 @@
+<script>
+    function typeSelected() {
+        selection = $('select[name=type]').val();
+        if (selection == "Nurse") {
+            $('#select-doctor').css('display', 'block');
+            $('#select-hospital').css('display', 'none');
+        } else {
+            $('#select-doctor').css('display', 'none');
+            $('#select-hospital').css('display', 'block');
+        }
+    }
+</script>
+{% if message %}
+        <div class="alert alert-danger"
+             style="max-width: 800px; margin-left: auto; margin-right: auto;">{{ message }}</div>
+{% endif %}
+{% if good %}
+        <div class="alert alert-success"
+             style="max-width: 800px; margin-left: auto; margin-right: auto;">{{ good }}</div>
+{% endif %}
+<form action="/dash/{{ user.id }}/create/" method="post">
+    {% csrf_token %}
+    <label style="font-size: small" for="fName">New User:</label>
+    <div class="form-group">
+        <input type="text" style="max-width: 225px; margin-left: 0px;" class="form-control" name="username"
+               placeholder="User Name">
+    </div>
+
+    <div class="form-group">
+        <input type="password" style="max-width: 225px; margin-left: 0px;" class="form-control" name="password"
+               placeholder="Password">
+    </div>
+
+    <select style="max-width: 225px; margin-left: 0px;" class="form-control" name="type" onchange="typeSelected();">
+        <option id="mine" selected>Admin</option>
+        <option id="mine2">Doctor</option>
+        <option id="mine3">Nurse</option>
+    </select>
+    <br>
+    <select id="select-doctor" style="max-width: 225px; margin-left: 0px; display: none;" class="form-control"
+            name="doctor">
+        {% for doc in doctors %}
+            <option id={{ doc.user.username }}>{{ doc.user.username }}</option>
+        {% endfor %}
+    </select>
+    <select id="select-hospital" style="max-width: 225px; margin-left: 0px;" class="form-control" name="yeah" required>
+        {% for hosp in hospitals %}
+            <option id={{ hosp.name }}>{{ hosp.name }}</option>
+        {% endfor %}
+    </select>
+    <br>
+    <input style="margin-left: 0px" class="btn  btn-success " type="submit" value="Create">
+</form>
+<br>
+<form action="/dash/{{ user.id }}/create/" method="post">
+    {% csrf_token %}
+    <label style="font-size: small" for="fName">New Hospital:</label>
+    <div class="form-group">
+        <input type="text" style="max-width: 225px; margin-left: 0px;" class="form-control" name="name"
+               placeholder="Hospital Name">
+    </div>
+    <input style="margin-left: 0px" class="btn  btn-success " type="submit" value="Create">
+</form>

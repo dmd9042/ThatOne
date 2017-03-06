@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+  <head>
+    <meta charset="utf-8">
+    <title>DashBoard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link href="https://netdna.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css"
+    rel="stylesheet">
+      <link href="https://netdna.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.js"
+    rel="stylesheet">
+    <link href="https://netdna.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-glyphicons.css"
+    rel="stylesheet">
+      <link rel="stylesheet" src="/Calenda/templates/Calenda/calendar.html">
+      <link rel="import" src="/Calenda/templates/Calenda/calendar.html">
+      <style type="text/css">
+          body{
+              font-size: 20px;
+          }
+      </style>
+
+
+  </head>
+
+  <body>
+    <nav class="navbar navbar-default" style="background-color: #5691ef;" role="navigation">
+      <div class="navbar-header">
+      </div>
+      <div class="collapse navbar-collapse navbar-ex1-collapse">
+        <a href="/dash/{{ user.id }}/">
+        <img style="margin-top: 3px" src="https://s3.amazonaws.com/media.jetstrap.com/r0hHROGTRa0FkCNolM0Q_HealthNET.png"
+        class="pull-left" width="50">
+        </a>
+
+
+          <form class="form-inline" action="/home/logout/" method="post">
+              {% csrf_token %}
+              <input style="margin-top: 6px;" class="btn btn-danger pull-right" type="submit" value="Log out">
+
+          </form>
+
+      </div>
+    </nav>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"
+    >
+    </script>
+    <script src="https://netdna.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"
+    >
+    </script>
+    <br>
+
+
+    <div class="row">
+        <div style="margin-left: 150px; width: 300px; height: 700px;" class = "well pull-left">
+
+                <h2>Your Dashboard</h2>
+                <div class="container">
+
+        {% csrf_token %}
+    <label style="font-size: small" for="fName">First Name:</label>
+    <div class="form-group">
+      <input type="text" style="max-width: 225px; margin-left: 0px;" class="form-control" name="fName" disabled value ={{ user.fName }} >
+    </div>
+        <label style="font-size: small" for="lName">Last Name:</label>
+    <div class="form-group">
+      <input type="text" style="max-width: 225px; margin-left: 0px;" class="form-control" name="lName" disabled value={{ user.lName }}>
+    </div>
+        <label style="font-size: small" for="birthDay">Birth Day:</label>
+    <div class="form-group">
+      <input type="date" value ="{{ birth }}" style="max-width: 225px; margin-left: 0px;" class="form-control" name="birthDay" disabled >
+    </div>
+        <label style="font-size: small" for="email">Email:</label>
+    <div class="form-group">
+
+      <input type="email" style="max-width: 225px; margin-left: 0px;" class="form-control" name="email" disabled value= {{ user.email }}>
+    </div>
+        <label style="font-size: small" for="phone">Phone:</label>
+    <div class="form-group">
+
+      <input type="number" style="max-width: 225px; margin-left: 0px;" class="form-control" name = "phone" disabled value= {{ user.phone }}>
+    </div>
+          <label style="font-size: small" for="hospital">Hospital:</label>
+      <select style="max-width: 225px; margin-left: 0px;" multiple class="form-control" id="hospital">
+          <option id="mine" selected>{{ patient.hospital.name }}</option>
+      </select>
+<br>
+
+<a style="margin-left: 90px" class="btn  btn-primary" href="/dash/{{ user.id }}/editInfo/">Edit</a>
+
+    </div>
+            </div>
+    <div class="col-sm-6">
+    <div class="container" style="margin-left: 100px">
+
+    <ul style="margin-right: 4px" class="nav nav-tabs nav-justified">
+        <li class="active">
+            <a href="/dash/{{ user.id }}/basic/">Basic</a>
+        </li>
+        <li style="margin-left: 60px;">
+            <a href="/dash/{{ user.id }}/hospital/">Admissions/Discharge</a>
+        </li>
+        <li style="margin-left: 60px;">
+            <a href="/dash/{{ user.id }}/tests/">Tests</a>
+        </li>
+        <li style="margin-left: 60px;">
+            <a href="/dash/{{ user.id }}/prescriptions/">Prescriptions</a>
+        </li>
+        <li style="margin-left: 60px;">
+            <a href="/dash/{{ user.id }}/calendar/">Calendar</a>
+        </li>
+        <li style="margin-left: 60px;">
+            <a href="/dash/{{ user.id }}/messages/">Messages</a>
+        </li>
+    </ul>
+
+    </div>
+    <br>
+
+        <div class="container" style="margin-left: 100px;">
+
+        {% if tab %}
+            {% include tab %}
+        {% endif %}
+        {% block content %}
+        {% endblock %}
+        </div>
+    </div>
+
+    </div>
+
+    <nav class = "navbar navbar-default navbar-fixed-bottom swag-line swag-line-bottom" role="navigation" style="background-color: #5691ef;">
+        <div class = "navbar-brand" style="color: black" href="/">Health Net 2017</div>
+        <div class = "navbar-right navbar-form">
+            <a href = "/dash/{{ user.id }}/help/" class = "btn btn-default" style="margin-right: 15px" data-toggle="collapse">Help</a>
+        </div>
+    </nav>
+  </body>
+
+</html>

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Home</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link href="https://netdna.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
+
+    <style type="text/css">
+        body {
+            background: #312f3f;
+        }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script src="https://netdna.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+<nav class="navbar navbar-default" style="background-color: #5691ef;" role="navigation">
+    <div class="navbar-header">
+    </div>
+    <div class="collapse navbar-collapse navbar-ex1-collapse">
+        <a href="/home/">
+            <img style="margin-top: 3px;"
+                 src="https://s3.amazonaws.com/media.jetstrap.com/r0hHROGTRa0FkCNolM0Q_HealthNET.png"
+                 class="pull-left" width="50">
+        </a>
+        {% if user.is_authenticated %}
+            <form class="form-inline" action="/home/logout/" method="post">
+                {% csrf_token %}
+
+                <input style="margin-top: 5px" class="btn btn-danger pull-right" type="submit" value="Log out">
+            </form>
+            <a href="/dash/{{ user.id }}/" style="margin-top: 5px; margin-right: 10px;" class="btn btn-info pull-right">Dashboard</a>
+
+        {% else %}
+            <form class="form-inline" action="/home/login/" method="post">
+                {% csrf_token %}
+                <input style="margin-top: 6px" class="btn btn-success pull-right" type="submit" value="Log in">
+                <div class="pull-right">
+
+                    <div class="form-group-inline pull-left">
+                        <label for="usr"></label>
+                        <input type="text" style="margin-right: 25px; margin-top: 6px" class="form-control" required
+                               id="usr" placeholder="User Name" name="usr">
+                    </div>
+
+                    <div class="from-group-inline pull-left">
+                        <label for="password"></label>
+                        <input style="margin-right: 25px; margin-top: 6px" type="password" class="form-control"
+                               id="password" placeholder="password" required
+                               name="password">
+                    </div>
+                </div>
+            </form>
+        {% endif %}
+    </div>
+</nav>
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<div class="container">
+    {% if error %}
+        <div class="alert alert-danger"
+             style="max-width: 1200px; margin-left: auto; margin-right: auto;">{{ error }}</div>
+    {% endif %}
+    {% if message %}
+        <div class="alert alert-success"
+             style="max-width: 1200px; margin-left: auto; margin-right: auto;">{{ message }}</div>
+    {% endif %}
+    <div class="jumbotron">
+        <br>
+        <font size="20">
+            Health Net
+            <img style="margin-left: 500px; margin-bottom: 200px; width: 220px; height: 200px; float:right;"
+                 src="https://s3.amazonaws.com/media.jetstrap.com/r0hHROGTRa0FkCNolM0Q_HealthNET.png"
+                 alt="iconfinder.com">
+        </font>
+        <br>
+        <p>
+            Putting Health in your hands.
+        </p>
+        <br>
+        <p>
+            <a class="btn btn-primary btn-lg" href="/home/signUp/">Sign up</a>
+        </p>
+    </div>
+</div>
+<nav class="navbar navbar-default navbar-fixed-bottom swag-line swag-line-bottom" style="background-color: #5691ef;"
+     role="navigation">
+    <div class="navbar-brand" style="color: black">Health Net 2017</div>
+    <div class="navbar-right navbar-form">
+        <a href="/home/help/" class="btn btn-default" style="margin-right: 15px" data-toggle="collapse">Help</a>
+    </div>
+</nav>
+</body>
+
+</html>

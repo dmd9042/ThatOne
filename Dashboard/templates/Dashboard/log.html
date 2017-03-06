@@ -1,0 +1,81 @@
+{% load static from staticfiles %}
+<link rel="stylesheet" type="text/css" href="{% static 'datetimepicker/jquery.datetimepicker.min.css' %}"/>
+<script src="{% static 'datetimepicker/jquery.datetimepicker.full.min.js' %}"></script>
+<script src="http://malsup.github.com/jquery.form.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#starttime').datetimepicker({});
+        $('#endtime').datetimepicker({});
+
+        $('#filter-form').ajaxForm();
+        $('#filter-form').submit(function filter() {
+            $(this).ajaxSubmit({
+                datatType: "text",
+                success: function (data, textStatus, jqXHR) {
+                    $('#logbox').html(data)
+                }
+            });
+            return false
+        });
+    });
+</script>
+<div class="content">
+    <pre id="logbox" style="height: 256px;">
+
+    </pre>
+    <form id="filter-form" action="/dash/{{ user.id }}/log/" method="post">
+        {% csrf_token %}
+
+        <label style="font-size: small" for="starttime">Start of timeframe:</label>
+        <div class="form-group">
+            <input id="starttime" type="text" value="{{ starttime }}" style="max-width: 225px; margin-left: 0px;"
+                   required
+                   class="form-control" name="start" placeholder="start time">
+        </div>
+
+        <label style="font-size: small" for="endtime">End of timeframe:</label>
+        <div class="form-group">
+            <input id="endtime" type="text" value="{{ endtime }}" style="max-width: 225px; margin-left: 0px;" required
+                   class="form-control" name="end" placeholder="end time">
+        </div>
+
+        <label style="font-size: small" for="type">Event type:</label>
+        <select id="type" style="max-width: 225px; margin-left: 0px;" class="form-control" name="type">
+            <option value="" selected></option>
+            <option value="transfer">Transfer</option>
+            {#<option value="updatemed">Update Medical Info</option>#}
+            <option value="newuser">New User</option>
+            <option value="dashboardUpdate">Update from Dashboard</option>
+            <option value="discharge">Discharge</option>
+            <option value="admit">Admit</option>
+            <option value="createAppt">Create Appointment</option>
+            <option value="updateAppt">Update Appointment</option>
+            <option value="deleteAppt">Delete Appointment</option>
+            <option value="newHospital">New Hospital</option>
+            <option value="newDoctor">New Doctor</option>
+            <option value="newNurse">New Nurse</option>
+            <option value="newAdmin">New Admin</option>
+        </select>
+
+        <label style="font-size: small" for="user">User:</label>
+        <select id="user" style="max-width: 225px; margin-left: 0px;" class="form-control" name="user">
+            <option value="" selected></option>
+            {% for u in users %}
+                <option id={{ u.username }} value={{ u.username }}>{{ u.username }}</option>
+            {% endfor %}
+        </select>
+
+        <label style="font-size: small" for="hospital">Hospital:</label>
+        <select id="hospital" style="max-width: 225px; margin-left: 0px;" class="form-control" name="hospital">
+            <option value="" selected></option>
+            {% for hosp in hospitals %}
+                <option id={{ hosp.name }}>{{ hosp.name }}</option>
+            {% endfor %}
+            <option id="N/A">N/A</option>
+        </select>
+
+        <br>
+        <input class="btn btn-success" type="submit" value="Filter"/>
+    </form>
+</div>

@@ -1,0 +1,61 @@
+{% extends 'Calenda/appointment.html' %}
+
+{% block form %}
+
+    <script type="text/javascript">
+        function confirmDelete() {
+            if(confirm('Are you sure you want to delete this appointment?')) {
+                window.location.href += 'delete/';
+            }
+        }
+    </script>
+
+    <form action="/dash/{{ user.id }}/appointment/{{ appointment.pk }}/" method="post">
+        {% csrf_token %}
+
+        <label style="font-size: small" for="end-time">Reason:</label>
+        <div class="form-group">
+            <input type="text" style="max-width: 225px; margin-left: 0px;" required class="form-control" name="reason" value="{{ appointment.title }}" placeholder="Brief reason for visit">
+        </div>
+
+        <label style="font-size: small" for="starttime">Start Time:</label>
+        <div class="form-group">
+            <input id="starttime" type="text" value="{{ starttime }}" style="max-width: 225px; margin-left: 0px;" required onblur="update();" class="form-control" name="starttime" placeholder="start time">
+        </div>
+
+        <label style="font-size: small" for="endtime">End Time:</label>
+        <div class="form-group">
+            <input id="endtime" type="text" value="{{ endtime }}" style="max-width: 225px; margin-left: 0px;" required onblur="update();" class="form-control" name="endtime" placeholder="end time">
+        </div>
+
+        <div {% if patient %} style="display: none;" {% endif %}>
+            <label style="font-size: small" for="doctor">Patient:</label>
+            <select style="max-width: 225px; margin-left: 0px;" class="form-control" name="patient" required onblur="update();">
+                {% for pat in patients %}
+                    <option id={{ pat.user.username }} value={{ pat.user.username }} {% if appointment.patient == pat %}selected{% endif %}>{{ pat.user.username }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div {% if doctor or nurse %} style="display: none;" {% endif %}>
+            <label style="font-size: small" for="doctor">Doctor:</label>
+            <select style="max-width: 225px; margin-left: 0px;" class="form-control" name="doctor" required onblur="update();">
+                {% for doc in doctors %}
+                    <option id={{ doc.user.username }} value={{ doc.user.username }} {% if appointment.doctor == doc %}selected{% endif %}>{{ doc.user.username }}</option>
+                {% endfor %}
+            </select>
+
+            <label style="font-size: small" for="hospital">Hospital:</label>
+            <select style="max-width: 225px; margin-left: 0px;" class="form-control" name="hospital" required>
+                {% for hosp in hospitals %}
+                    <option id={{ hosp.name }} {% if appointment.hospital == hosp %}selected{% endif %}>{{ hosp.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <br>
+        <input id="save" class="btn btn-success" type="submit" value="Save">
+        <input style="margin-left: 50px" class="btn btn-danger" type="button" onclick="confirmDelete()" value="Delete" />
+        <a style="margin-left: 50px" class="btn btn-info" href="/dash/{{ user.id }}/calendar/">Close</a>
+    </form>
+{% endblock %}

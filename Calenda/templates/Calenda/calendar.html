@@ -1,0 +1,34 @@
+{% load static from staticfiles %}
+<link rel='stylesheet' href="{% static 'fullcalendar/fullcalendar.min.css' %}" />
+<script type="text/javascript" src="{% static 'lib/moment.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'fullcalendar/fullcalendar.min.js' %}"></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+      $('#calendar').fullCalendar({
+          timezone: 'local',
+          defaultView: 'agendaWeek',
+          allDayDefault: false,
+          allDaySlot: false,
+          height: "auto",
+          events: [
+            {% for i in appointments %}
+              {
+                  title: '{{ i.title}}',
+                  start: '{{ i.start|date:"c" }}',
+                  end: '{{ i.end|date:"c" }}',
+                  url: '/dash/{{ user.id }}/appointment/{{ i.pk }}/'
+
+              },
+            {% endfor %}
+          ],
+          dayClick: function(date, jsEvent, view) {
+              window.location.href = "/dash/{{ user.id }}/appointment/new/?start=" + encodeURIComponent(date.format('YYYY/MM/DD hh:mm'));
+          }
+      });
+      $('.fc-slats .fc-widget-content:last-child').css('cursor', 'pointer');
+      $('.fc-event').css('font-size', '.62em');
+  });
+</script>
+<div class="container">
+    <div id="calendar"  ></div>
+</div>

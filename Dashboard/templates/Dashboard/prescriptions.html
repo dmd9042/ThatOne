@@ -1,0 +1,29 @@
+{% extends 'Dashboard/dashboard.html' %}
+
+{% block content %}
+
+    <div class="container">
+    <table style="margin-left: 9px" class="table table-striped">
+        <thead class="thread-inverse">
+        <tr>
+            <td>Name</td>
+            <td>Dosage</td>
+            <td>Date Given</td>
+            <td>Date Expires</td>
+        </tr>
+        </thead>
+
+        <tbody>
+        {% for test in pres%}
+            <tr>
+                <td>{{ test.name }}</td>
+                <td>{{ test.dosage }}</td>
+                <td>{{ test.given }}</td>
+                <td>{{ test.expire }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    </div>
+
+{% endblock %}

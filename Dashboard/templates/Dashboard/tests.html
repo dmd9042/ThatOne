@@ -1,0 +1,21 @@
+<div class="container">
+<table style="margin-left: 9px" class="table table-striped">
+    <thead class="thread-inverse">
+    <tr>
+        <td>Name</td>
+        <td>Result</td>
+        <td>Date</td>
+    </tr>
+    </thead>
+
+    <tbody>
+    {% for test in tests %}
+        <tr>
+            <td>{{ test.name }}</td>
+            <td>{{ test.result }}</td>
+            <td>{{ test.date }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+</div>

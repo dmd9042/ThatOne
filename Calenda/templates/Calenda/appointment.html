@@ -1,0 +1,56 @@
+
+    {% load static from staticfiles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'datetimepicker/jquery.datetimepicker.min.css' %}"/>
+    <script src="{% static 'datetimepicker/jquery.datetimepicker.full.min.js' %}"></script>
+
+    <script type="text/javascript">
+    $(document).ready(function() {
+        $('#starttime').datetimepicker({
+            step: 30
+        });
+        $('#endtime').datetimepicker({
+            step: 30
+        });
+    });
+
+    function update() {
+        var button = $('#save');
+        button.attr("disabled", true);
+
+        $.getJSON('/dash/{{ user.id }}/appvalidate/', {
+                starttime: $('#starttime').val(),
+                endtime: $('#endtime').val(),
+                doctor: $('select[name=doctor]').val(),
+                patient: $('select[name=patient]').val(),
+                appid:{% if appointment %} {{ appointment.id }}{% else %} -1{% endif %}
+            },
+            function(data, textStatus, jqXHR) {
+                if(data.doc && data.pat) {
+                    button.attr("disabled", false);
+                } else if(data.pat) {
+                    alert("This doctor is not available at this time.")
+                } else if(data.doc) {
+                    alert("You already have an appointment scheduled at this time.")
+                } else {
+                    alert("Neither you nor your doctor is not available at this time.")
+                }
+
+                hospOptions = $('select[name=hospital] option');
+
+                hospOptions.attr("disabled", true);
+
+                for(i = 0; i < data.hospitals.length; i++) {
+                    $('#' + data.hospitals[i]).attr("disabled", false).attr("selected", true);
+                }
+
+                selected = $('select[name=hospital]');
+
+                if($('select[name=hospital] option#' + selected.val()).attr("disabled")) {
+                    selected.val([]);
+                }
+            });
+    }
+    </script>
+
+    {% block form %}
+    {% endblock %}
